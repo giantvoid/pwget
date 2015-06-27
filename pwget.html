@@ -1,0 +1,651 @@
+<!--
+The MIT License (MIT)
+
+Copyright (c) Andriy Makarevych <andriy@makarevych.com>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>PwGet.com - Online strong password generator</title>
+		<meta name="description" content="Online strong password generator. 100% client-side, secure and truly random. Free and open source." />
+		<meta name="keywords" content="online, password, generator, secure, strong, javascript, free" />
+
+<style type="text/css">
+#pwget {
+	font-family: Arial, Helvetica, sans-serif;
+	text-align: left;
+	width: 760px;
+	margin: auto;
+	position: relative;
+}
+#header {
+	font: 35px Arial, Helvetica, sans-serif;
+	text-align: center;
+	padding: 30px 0 50px 0;
+}
+#header .pw {
+	color: #F00;
+}
+#header .get {
+	color: #00B322;
+}
+#header .com {
+	font-size: 25px;
+	color: #666;
+}
+#header div {
+	font-size: 16px;
+	color: #999;
+}
+#footer {
+	font-size: 16px;
+	color: #999;
+	text-align: center;
+	padding-top: 30px;
+}
+#footer a {
+	margin: 0 20px;
+	color: #00B322;
+}
+#password {
+	display: inline-block;
+	width: 430px;
+	float: left;
+	padding-right: 10px;
+	border-right: 1px dashed #999;
+}
+#settings {
+	display: inline-block;
+	padding-left: 10px;
+	padding-top: 5px;
+}
+#settings > div {
+	margin-bottom: 10px;
+}
+#settings > div:last-child {
+	margin-bottom: 0;
+}
+#pwget label {
+	font-size: 13px;
+}
+#pwget input[type="button"] {
+}
+#password {
+	font: bold 20px "Courier New", Courier, monospace;
+}
+#password > div {
+	border-style: solid;
+	border-width: 2px;
+	padding: 5px;
+	margin-bottom: 10px;
+	text-align: center;
+}
+#password > div:last-child {
+	margin-bottom: 0;
+}
+.border_8 {
+	border-color: #FE7878;
+	background-color: #FFF2F2;
+}
+.border_16 {
+	border-color: #FACB36;
+	background-color: #FFFCF3;
+}
+.border_24 {
+	border-color: #8B8A8A;
+	background-color: #F5F5F5;
+}
+.border_32 {
+	border-color: #78CA83;
+	background-color: #EEFFF6;
+}
+.border_none {
+	border-color: #DDD;
+	background-color: #FFF;
+}
+#password .d {
+	color: #00F;
+}
+#password .c {
+	color: #000;
+}
+.sc {
+	color: #F00;
+}
+.icon {
+    height: 28px;
+    width: 30px;
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}
+.redo {
+	cursor: pointer;
+	vertical-align: middle;
+	margin-left: 5px;
+}
+.icon .redo_l {
+    width: 8px;
+    height: 8px;
+    border-style: solid;
+    border-width: 0px 0px 4px 4px;
+    border-color: #00B322;
+    -webkit-border-radius: 0 0 0 50px;
+    -moz-border-radius: 0 0 0 50px;
+    border-radius: 0 0 0 50px;
+    position: absolute;
+    bottom: 4px;
+    left: 4px;
+}
+.icon .redo_l:before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 6px;
+    border-color: transparent transparent #00B322 transparent;
+    bottom: 8px;
+    left: -8px;
+}
+.icon .redo_r {
+    width: 8px;
+    height: 8px;
+    border-style: solid;
+    border-width: 4px 4px 0 0;
+    border-color: #00B322;
+    -webkit-border-radius: 0 50px 0 0;
+    -moz-border-radius: 0 50px 0 0;
+    border-radius: 0 50px 0 0;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+}
+.icon .redo_r:before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 6px;
+    border-color: #00B322 transparent transparent transparent;
+    top: 8px;
+    right: -8px;
+}
+#length > span {
+	border: 1px dotted #00B322;
+	padding: 5px 10px;
+	cursor: pointer;
+}
+#length > span:hover {
+	border: 1px solid #999;
+	background-color: #EEE;
+}
+#length .selectedLength, #length .selectedLength:hover {
+	color: #FFF;
+	background-color: #999;
+	border: 1px solid #999;
+	cursor: default;
+}
+#pwget input[type=checkbox] {
+	display: none;
+}
+.checkbox label:before {  
+	/* border-radius: 3px; */
+}
+#pwget input[type=checkbox]:checked + label:before {
+    content: "\2713";
+    font-size: 15px;
+    text-align: center;
+    line-height: 15px;
+}
+.checkbox label {
+	display: inline-block;
+	cursor: pointer;
+	position: relative;
+	padding-left: 25px;
+}
+.checkbox label:before {
+    content: "";
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 10px;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	border: 1px solid #00B322;
+}
+#entropyPanel {
+	border:1px solid #d3d3d3;
+}
+</style>
+
+<script type="text/javascript">
+var	alphabetChars = 'aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ'.split(''),
+	digits = '0123456789'.split(''),
+	specialChars = '&#33;,&#34;,&#35;,&#36;,&#37;,&#38;,&#39;,&#40;,&#41;,&#42;,&#43;,&#44;,&#45;,&#46;,&#47;,&#58;,&#59;,&#60;,&#61;,&#62;,&#63;,&#64;,&#91;,&#92;,&#93;,&#94;,&#95;,&#123;,&#124;,&#125;'.split(','),
+	webUnfriendly = '&#34;,&#37;,&#38;,&#39;,&#47;,&#60;,&#62;,&#92;,&#94;'.split(','),
+	readerUnfriendly = 'o,O,0,1,I,l,&#124;'.split(',');
+
+var pwdLength;
+
+// Cursor
+var posX, posY, lastX, lastY;
+
+// Circle
+var	circlePosition,
+	circleRadius, minCircleRadius, maxCircleRadius,
+	circleSpeed, minCircleSpeed, maxCircleSpeed,
+	sinTable;
+
+// Canvas
+var	canvas,
+	canvasWidth, canvasHeight,
+	ctx;
+
+// Matrix
+var matrixX, matrixY, matrixWidth, matrixHeight;
+
+// Buffers
+var	bgImg, bgImgData,
+	matrixImg, matrixImgData,
+	bufImg1, bufImgData1;
+
+var COLOR_VISITED = 0x66;
+
+function initPwGet() {
+	initData();
+	document.getElementById('pwget').addEventListener('mousemove', addUserEntropy);
+	setTimeout(completePasswords, 100 + Math.round(Math.random() * 555));
+}
+
+function initData() {
+	var i, idx, x, y, rnd;
+
+	// Canvas
+	canvas = document.getElementById('entropyCanvas');
+	canvasWidth = canvas.width;
+	canvasHeight = canvas.height;
+	ctx = canvas.getContext('2d');
+
+	// Matrix
+	matrixX = 2;
+	matrixY = 2;
+	matrixWidth = canvasWidth - 4;
+	matrixHeight = canvasHeight - 4;
+
+	// Buffers
+	bgImg = ctx.createImageData(canvasWidth, canvasHeight);
+	bgImgData = bgImg.data;
+	matrixImg = ctx.createImageData(matrixWidth, matrixHeight);
+	matrixImgData = matrixImg.data;
+	bufImg1 = ctx.createImageData(5, 5);
+	bufImgData1 = bufImg1.data;
+
+	// initial values
+	generatePasswords(24);
+
+	posX = Math.round(matrixWidth / 2);
+	posY = Math.round(matrixHeight / 2);
+	lastX = posX;
+	lastY = posY;
+
+	drawPixel(bgImgData, canvasHeight, canvasWidth, posX + matrixX, 0, COLOR_VISITED, COLOR_VISITED, COLOR_VISITED, 0xFF);
+	drawPixel(bgImgData, canvasHeight, canvasWidth, posX + matrixX, canvasHeight - 1, COLOR_VISITED, COLOR_VISITED, COLOR_VISITED, 0xFF);
+	drawPixel(bgImgData, canvasHeight, canvasWidth, 0, posY + matrixY, COLOR_VISITED, COLOR_VISITED, COLOR_VISITED, 0xFF);
+	drawPixel(bgImgData, canvasHeight, canvasWidth, canvasWidth - 1, posY + matrixY, COLOR_VISITED, COLOR_VISITED, COLOR_VISITED, 0xFF);
+
+	circlePosition = 0;
+	circleRadius = Math.round(canvasHeight / 5);
+	minCircleRadius = Math.round(canvasHeight / 10);
+	maxCircleRadius = Math.round(canvasHeight / 4);
+	circleSpeed = -10;
+	minCircleSpeed = -50;
+	maxCircleSpeed = 50;
+
+	// Pre-calculated sinus table
+	sinTable = [];
+	idx = 0;
+	for (i = 0; i < 6.28; i += 0.01, idx++) { // 0 to Math.round(2*Math.PI*100)
+		sinTable[idx] = Math.sin(i);
+	}
+
+	// Initial matrix values
+	i = 0;
+	for (y = 0; y < matrixHeight; y++) {
+		for (x = 0; x < matrixWidth; x++) {
+			rnd = Math.floor(Math.random() * 0x100);
+			r = rnd;
+			g = rnd;
+			b = rnd;
+			a = 0xFF;
+			drawPixel(matrixImgData, matrixHeight, matrixWidth, x, y, r, g, b, a);
+		}
+	}
+	drawBuffers();
+
+	// Start timer
+	setTimeout(addRandomPixels, 100);
+}
+
+function drawPixel(imgData, imgHeight, imgWidth, x, y, r, g, b, a) {
+	var idx;
+
+	idx = (y * imgWidth + x) * 4;
+	if (idx >= 0 && idx < imgData.length) {
+		imgData[idx++] = r;
+		imgData[idx++] = g;
+		imgData[idx++] = b;
+		imgData[idx] = a;
+	}
+}
+
+function incMatrixPixel(x, y) {
+	var idx;
+
+	idx = (y * matrixWidth + x) * 4;
+	if (idx >= 0 && idx < matrixImgData.length) {
+		matrixImgData[idx] = (matrixImgData[idx] + Math.round(Math.random() * 0x100)) & 0xFF;
+		idx++
+		matrixImgData[idx] = (matrixImgData[idx] + Math.round(Math.random() * 0x100)) & 0xFF;
+		idx++
+		matrixImgData[idx] = (matrixImgData[idx] + Math.round(Math.random() * 0x100)) & 0xFF;
+	}
+}
+
+function generatePasswords(newPwdLength) {
+	if (typeof(newPwdLength) != 'undefined') {
+		pwdLength = newPwdLength;
+	}
+	var selectedLengthElement = document.getElementsByClassName('selectedLength');
+	if (selectedLengthElement.length > 0) {
+		selectedLengthElement[0].className = '';
+	}
+	document.getElementById('length_' + pwdLength).className = 'selectedLength';
+
+	resetPasswords();
+}
+
+function resetPasswords() {
+	var passwordElements = document.getElementById('password').getElementsByTagName('div');
+	for (var idx = 0; idx < passwordElements.length; idx++) {
+		passwordElements[idx].innerHTML = '&nbsp;';
+		passwordElements[idx].className = 'border_none';
+	}
+}
+
+function completePasswords() {
+	var passwordElements = document.getElementById('password').getElementsByTagName('div');
+	for (var idx = 0; idx < passwordElements.length; idx++) {
+		var passwordElement = passwordElements[idx];
+		if (passwordElement.innerHTML == '&nbsp;') {
+			passwordElement.innerHTML = generatePassword();
+			passwordElement.className = 'border_' + pwdLength;
+			break;
+		}
+	}
+	setTimeout(completePasswords, 200 + Math.round(Math.random() * 430));
+}
+
+function generatePassword() {
+	var includeDigits = document.getElementById('digits').checked,
+		includeSpecialCharacters = document.getElementById('specialCharacters').checked,
+		excludeWebUnfriendly = document.getElementById('webFriendly').checked,
+		excludeReaderUnfriendly = document.getElementById('readerFriendly').checked,
+		chars = alphabetChars.slice(0),
+		password = '',
+		pwdChar, pwdCharClass,
+		visitedLines, x, y, idx;
+
+	if (includeDigits) {
+		chars = chars.concat(digits);
+		chars = chars.concat(digits);
+	}
+	if (includeSpecialCharacters) {
+		chars = chars.concat(specialChars);
+		chars = chars.concat(specialChars);
+	}
+	if (excludeWebUnfriendly) {
+		chars = chars.filter(function(el) { return webUnfriendly.indexOf(el) < 0; });
+	}
+	if (excludeReaderUnfriendly) {
+		chars = chars.filter(function(el) { return readerUnfriendly.indexOf(el) < 0; });
+	}
+
+	visitedLines = getVisitedLines();
+	for (var i = 0; i < pwdLength; i++) {
+
+		x = Math.floor(Math.random() * visitedLines[0].length);
+		y = Math.floor(Math.random() * visitedLines[1].length);
+		idx = (visitedLines[1][y] * matrixWidth + visitedLines[0][x]) * 4;
+		if ((matrixImgData[idx] + matrixImgData[idx + 1] + matrixImgData[idx + 2]) % 2) {
+			y = Math.floor(Math.random() * visitedLines[1].length);
+			x = Math.floor(Math.random() * matrixWidth);
+			idx = (visitedLines[1][y] * matrixWidth + x) * 4; // x
+		} else {
+			y = Math.floor(Math.random() * matrixHeight);
+			x = Math.floor(Math.random() * visitedLines[0].length);
+			idx = (y * matrixWidth + visitedLines[0][x]) * 4; // x
+		}
+		
+		pwdChar = chars[(Math.floor(Math.random() * chars.length) + matrixImgData[idx] + matrixImgData[idx + 1] + matrixImgData[idx + 2]) % chars.length];
+
+		if (specialChars.indexOf(pwdChar) >= 0) {
+			pwdCharClass = 'sc';
+		} else if (digits.indexOf(pwdChar) >= 0) {
+			pwdCharClass = 'd';
+		} else {
+			pwdCharClass = 'c';
+		}
+
+		password += '<span class="' + pwdCharClass + '">' + pwdChar + '</span>';
+	}
+
+	return password;
+}
+
+function getVisitedLines() {
+	var idx, visitedX, visitedY;
+
+	visitedX = [];
+	for (var x = 0; x < matrixWidth; x++) {
+		idx = (x + matrixX) * 4;
+		if (bgImgData[idx] == COLOR_VISITED && bgImgData[idx + 1] == COLOR_VISITED && bgImgData[idx + 2] == COLOR_VISITED) {
+			visitedX.push(x);
+		}
+	}
+
+	visitedY = [];
+	for (var y = 0; y < matrixHeight; y++) {
+		idx = (y + matrixY) * canvasWidth * 4;
+		if (bgImgData[idx] == COLOR_VISITED && bgImgData[idx + 1] == COLOR_VISITED && bgImgData[idx + 2] == COLOR_VISITED) {
+			visitedY.push(y);
+		}
+	}
+
+	return [visitedX, visitedY];
+}
+
+function addRandomPixels() {
+	var i, x, y, r, g, b, cPos;
+
+	for (i = 0; i < 100; i++) {
+		x = Math.floor(Math.random() * matrixWidth);
+		y = Math.floor(Math.random() * matrixHeight);
+
+		incMatrixPixel(x, y);
+		incMatrixPixel(x - 1, y);
+		incMatrixPixel(x + 1, y);
+		incMatrixPixel(x, y - 1);
+		incMatrixPixel(x, y + 1);
+	}
+
+	for (i = 0; i < matrixHeight; i++) {
+		incMatrixPixel(posX, i);
+		incMatrixPixel((x + i) & 1 ? posX - 1 : posX + 1, i);
+	}
+	for (i = 0; i < matrixWidth; i++) {
+		incMatrixPixel(i, posY);
+		incMatrixPixel(i, (y + i) & 1 ? posY - 1 : posY + 1);
+	}
+
+	drawBuffers();
+
+	circlePosition += circleSpeed;
+	if (circlePosition >= sinTable.length) {
+		circlePosition -= sinTable.length;
+	} else if (circlePosition < 0) {
+		circlePosition += sinTable.length;
+	}
+
+	drawCircle();
+	setTimeout(addRandomPixels, 50);
+}
+
+function drawCircle() {
+	var cPos, i, x, y;
+
+	cPos = circlePosition;
+	for (i = 0; i < 4; i++) {
+		x = Math.round(posX + sinTable[cPos] * circleRadius);
+		cPos += 157;
+		if (cPos >= sinTable.length) {
+			cPos -= sinTable.length;
+		}
+		y = Math.round(posY + sinTable[cPos] * circleRadius);
+		ctx.putImageData(bufImg1, x - 2 + matrixX, y - 2 + matrixY);
+		incMatrixPixel(x, y);
+		incMatrixPixel(x + 1, y);
+		incMatrixPixel(x - 1, y);
+		incMatrixPixel(x, y + 1);
+		incMatrixPixel(x, y - 1);
+	}
+}
+
+function drawBuffers() {
+	ctx.putImageData(bgImg, 0, 0);
+	ctx.putImageData(matrixImg, matrixX, matrixY);
+}
+
+function addUserEntropy(e) {
+	var i, x, y, panelWidth, panelHeight, xOffset, yOffset;
+
+	x = e.offsetX == undefined ? e.layerX : e.offsetX;
+	y = e.offsetY == undefined ? e.layerY : e.offsetY;
+	panelWidth = document.getElementById('pwget').offsetWidth;
+	panelHeight = document.getElementById('pwget').offsetHeight;
+	xOffset = x / panelWidth;
+	yOffset = y / panelHeight;
+	lastX = posX;
+	lastY = posY;
+	posX = Math.floor(xOffset * matrixWidth);
+	posY = Math.floor(yOffset * matrixHeight);
+
+	circleSpeed += Math.round ((lastX - posX) / 2);
+	if (circleSpeed > maxCircleSpeed) {
+		circleSpeed = maxCircleSpeed;
+	} else if (circleSpeed < minCircleSpeed) {
+		circleSpeed = minCircleSpeed;
+	}
+
+	circleRadius += Math.round ((lastY - posY) / 3);
+	if (circleRadius > maxCircleRadius) {
+		circleRadius = maxCircleRadius;
+	} else if (circleRadius < minCircleRadius) {
+		circleRadius = minCircleRadius;
+	}
+
+	drawPixel(bgImgData, canvasHeight, canvasWidth, posX + matrixX, 0, 0x66, 0x66, 0x66, 0xFF);
+	drawPixel(bgImgData, canvasHeight, canvasWidth, posX + matrixX, canvasHeight - 1, 0x66, 0x66, 0x66, 0xFF);
+	drawPixel(bgImgData, canvasHeight, canvasWidth, 0, posY + matrixY, 0x66, 0x66, 0x66, 0xFF);
+	drawPixel(bgImgData, canvasHeight, canvasWidth, canvasWidth - 1, posY + matrixY, 0x66, 0x66, 0x66, 0xFF);
+
+	for (i = 0; i < matrixHeight; i++) {
+		incMatrixPixel(posX, i);
+		incMatrixPixel((x + i) & 1 ? posX - 1 : posX + 1, i);
+	}
+	for (i = 0; i < matrixWidth; i++) {
+		incMatrixPixel(i, posY);
+		incMatrixPixel(i, (y + i) & 1 ? posY - 1 : posY + 1);
+	}
+
+	drawBuffers();
+	
+	ctx.putImageData(bufImg1, posX - 2 + matrixX, posY - 2 + matrixY);
+	drawCircle();
+}
+</script>
+
+	</head>
+	<body onload="initPwGet()">
+		<div id="pwget">
+			<div id="header">
+				<span class="pw">Pw</span><span class="get">Get</span><span class="com">.com</span>
+				<div>online strong password generator</div>
+				<div>truly random. client-side. no ads. no tracking. free. open source.</div>
+			</div>
+			<div id="password">
+				<div>&nbsp;</div>
+				<div>&nbsp;</div>
+				<div>&nbsp;</div>
+				<div>&nbsp;</div>
+				<div>&nbsp;</div>
+			</div>
+			<div id="settings">
+				<div id="length">
+					<label>Length:</label>
+					<span id="length_8" onclick="generatePasswords(8)">8</span>
+					<span id="length_16" onclick="generatePasswords(16)">16</span>
+					<span id="length_24" onclick="generatePasswords(24)">24</span>
+					<span id="length_32" onclick="generatePasswords(32)">32</span>
+					<div class="icon redo" onclick="generatePasswords()">
+						<div class="redo_l"></div>
+						<div class="redo_r"></div>
+					</div>
+				</div>
+				<div class="checkbox">
+					<input type="checkbox" id="digits" name="digits" value="digits" checked="checked" onclick="generatePasswords()" />
+					<label for="digits">Digits (0-9)</label>
+				</div>
+				<div class="checkbox">
+					<input type="checkbox" id="specialCharacters" name="specialCharacters" value="specialCharacters" checked="checked" onclick="generatePasswords()" />
+					<label for="specialCharacters">Special characters (&#33;, &#34;, &#35;, &#36;, &#123;, &#95;, &#40;, &#43;, &#91;, ...)</label>
+				</div>
+				<div class="checkbox">
+					<input type="checkbox" id="webFriendly" name="webFriendly" value="webFriendly" checked="checked" onclick="generatePasswords()" />
+					<label for="webFriendly">Web friendly (exclude &#34;, &#37;, &#38;, &#39;, &#47;, &#60;, &#62;, &#92; and &#94;)</label>
+				</div>
+				<div class="checkbox">
+					<input type="checkbox" id="readerFriendly" name="readerFriendly" value="readerFriendly" onclick="generatePasswords()" />
+					<label for="readerFriendly">Reader friendly (exclude o, O, 0, 1, I, l, &#124;)</label>
+				</div>
+				<div id="entropyPanel">
+					<canvas id="entropyCanvas" height="80" />
+				</div>
+			</div>
+			<div id="footer">
+				<div><a href="">GitHub</a><a href="https://twitter.com/giantvoid">twitter</a></div>
+			</div>
+		</div>
+	</body>
+</html>
