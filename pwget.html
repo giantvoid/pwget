@@ -57,14 +57,17 @@ SOFTWARE.
 	color: #999;
 }
 #footer {
-	font-size: 16px;
+	font-size: 12px;
 	color: #999;
 	text-align: center;
 	padding-top: 30px;
 }
 #footer a {
-	margin: 0 20px;
+	margin: 0 10px;
 	color: #00B322;
+}
+#footer div {
+	margin-top: 5px;
 }
 #password {
 	display: inline-block;
@@ -405,22 +408,20 @@ function completePasswords() {
 }
 
 function generatePassword() {
-	var includeDigits = document.getElementById('digits').checked,
+	var moreDigits = document.getElementById('moreDigits').checked,
 		includeSpecialCharacters = document.getElementById('specialCharacters').checked,
 		excludeWebUnfriendly = document.getElementById('webFriendly').checked,
 		excludeReaderUnfriendly = document.getElementById('readerFriendly').checked,
-		chars = alphabetChars.slice(0),
+		chars = alphabetChars.slice(0).concat(digits),
 		password = '',
 		pwdChar, pwdCharClass,
 		visitedLines, x, y, idx;
 
-	if (includeDigits) {
-		chars = chars.concat(digits);
-		chars = chars.concat(digits);
-	}
 	if (includeSpecialCharacters) {
 		chars = chars.concat(specialChars);
-		chars = chars.concat(specialChars);
+	}
+	if (moreDigits) {
+		chars = chars.concat(digits).concat(specialChars);
 	}
 	if (excludeWebUnfriendly) {
 		chars = chars.filter(function(el) { return webUnfriendly.indexOf(el) < 0; });
@@ -600,6 +601,7 @@ function addUserEntropy(e) {
 				<span class="pw">Pw</span><span class="get">Get</span><span class="com">.com</span>
 				<div>online strong password generator</div>
 				<div>truly random. client-side. no ads. no tracking. free. open source.</div>
+			<noscript>Please enable JavaScript for this page!</noscript>
 			</div>
 			<div id="password">
 				<div>&nbsp;</div>
@@ -621,12 +623,12 @@ function addUserEntropy(e) {
 					</div>
 				</div>
 				<div class="checkbox">
-					<input type="checkbox" id="digits" name="digits" value="digits" checked="checked" onclick="generatePasswords()" />
-					<label for="digits">Digits (0-9)</label>
-				</div>
-				<div class="checkbox">
 					<input type="checkbox" id="specialCharacters" name="specialCharacters" value="specialCharacters" checked="checked" onclick="generatePasswords()" />
 					<label for="specialCharacters">Special characters (&#33;, &#34;, &#35;, &#36;, &#123;, &#95;, &#40;, &#43;, &#91;, ...)</label>
+				</div>
+				<div class="checkbox">
+					<input type="checkbox" id="moreDigits" name="moreDigits" value="moreDigits" checked="checked" onclick="generatePasswords()" />
+					<label for="moreDigits">Double digits and special characters probability</label>
 				</div>
 				<div class="checkbox">
 					<input type="checkbox" id="webFriendly" name="webFriendly" value="webFriendly" checked="checked" onclick="generatePasswords()" />
@@ -641,6 +643,10 @@ function addUserEntropy(e) {
 				</div>
 			</div>
 			<div id="footer">
+				Uses only data affected by the collected user-generated entropy (marked with black dots near the border of the data matrix).
+				JavaScript in a single HTML page. No server requests, no ads, no tracking. 100% client-side.
+				Move your mouse around a little bit for the best results. Be sure to enable JavaScript for this page.
+				Trust no one. Save and open this page locally.
 				<div><a href="https://github.com/giantvoid/pwget">GitHub</a><a href="https://twitter.com/giantvoid">twitter</a></div>
 			</div>
 		</div>
