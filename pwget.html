@@ -419,9 +419,9 @@ function generatePassword() {
 
 	if (includeSpecialCharacters) {
 		chars = chars.concat(specialChars);
-	}
-	if (moreDigits) {
-		chars = chars.concat(digits).concat(specialChars);
+		if (moreDigits) {
+			chars = chars.concat(digits).concat(specialChars);
+		}
 	}
 	if (excludeWebUnfriendly) {
 		chars = chars.filter(function(el) { return webUnfriendly.indexOf(el) < 0; });
