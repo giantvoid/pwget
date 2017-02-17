@@ -419,8 +419,11 @@ function generatePassword() {
 
 	if (includeSpecialCharacters) {
 		chars = chars.concat(specialChars);
-		if (moreDigits) {
-			chars = chars.concat(digits).concat(specialChars);
+	}
+	if (moreDigits) {
+		chars = chars.concat(digits);
+		if (includeSpecialCharacters) {
+			chars = chars.concat(specialChars);
 		}
 	}
 	if (excludeWebUnfriendly) {
